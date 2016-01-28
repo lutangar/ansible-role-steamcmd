@@ -1,0 +1,9 @@
+- name: Check if anonymous steam account has no password.
+  fail:
+    msg: Anonymous steam user mustn't have a password.
+  when: steamcmd_steam.username == 'anonymous' and steamcmd_steam.password
+
+- name: Check if the password is set for non anonymous steam account.
+  fail:
+    msg: You must set a password to use another steam account or rather use anonymous account.
+  when: steamcmd_steam.username != 'anonymous' and not steamcmd_steam.password

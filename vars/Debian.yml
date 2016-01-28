@@ -1,0 +1,5 @@
+---
+
+steamcmd_packages:
+  - lib32gcc1
+  - lib32stdc++6

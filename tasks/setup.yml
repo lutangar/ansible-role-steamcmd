@@ -1,0 +1,41 @@
+---
+
+- name: Create directory for SteamCMD app.
+  file:
+    path: '{{ steamcmd_directory }}'
+    state: directory
+    recurse: yes
+
+- name: Create legacy directory for older apps.
+  file:
+    path: '{{ steamcmd_user_home }}.steam/sdk32/'
+    state: directory
+    recurse: yes
+
+- name: Download SteamCMD for Linux.
+  get_url:
+    url: https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+    dest: '{{ steamcmd_directory }}steamcmd_linux.tar.gz'
+    force: yes
+    headers: 'User-Agent: lutangar/ansible-role-steamcmd'
+    validate_certs: no
+
+- name: Extract the contents to cmd directory.
+  unarchive:
+    src: '{{ steamcmd_directory }}steamcmd_linux.tar.gz'
+    dest: '{{ steamcmd_directory }}'
+    copy: no
+
+- name: Attempt to log into steam.
+  command: '{{ steamcmd_directory }}steamcmd.sh +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit'
+  async: 60
+  poll: 5
+  register: steam_login
+
+- name: Linking steamclient.so to the ~/.steam/sdk32/steamclient.so directory.
+  file:
+    src: '{{ steamcmd_directory }}linux32/steamclient.so'
+    dest: '{{ steamcmd_user_home }}.steam/sdk32/steamclient.so'
+    state: link
+    creates: yes
+  when: steam_login.stdout.find('unable to locate a running instance of Steam, or a local steamclient.dll') != -1

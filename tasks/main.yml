@@ -1,0 +1,8 @@
+---
+
+- include: packages.yml
+- include: user.yml
+  when: steamcmd_create_user
+- include: setup.yml
+  become: yes
+  become_user: '{{ steamcmd_user }}'

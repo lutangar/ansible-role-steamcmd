@@ -1,0 +1,27 @@
+---
+
+- name: Add steamcmd group.
+  group:
+    name: '{{ steamcmd_user }}'
+    state: present
+
+- name: Add steamcmd user.
+  user:
+    name: '{{ steamcmd_user }}'
+    comment: "Steam CMD user"
+    group: '{{ steamcmd_user }}'
+    append: yes
+    createhome: yes
+    shell: /bin/bash
+    home: '{{ steamcmd_user_home }}'
+
+- name: Check for ssh daemon.
+  command: which sshd
+  register: sshd_path
+  ignore_errors: true
+
+- name: Add authorized key.
+  authorized_key:
+    user: '{{ steamcmd_user }}'
+    key: '{{key}}'
+  when: sshd_path|success and key is defined
