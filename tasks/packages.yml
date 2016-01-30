@@ -1,10 +1,10 @@
 ---
 
-- name: Add i386 architecture onto Debian 7.
+- name: add i386 architecture onto Debian 7
   command: dpkg --add-architecture i386
   when: ansible_os_family == "Debian" and ansible_distribution_version|int == 7
 
-- name: Update the apt package index.
+- name: update the apt package index
   apt:
     update_cache: yes
   when: ansible_pkg_mgr == "apt"
@@ -15,7 +15,7 @@
     - "../vars/{{ ansible_os_family }}.yml"
     - "../vars/Debian.yml"
 
-- name: Install {{ item }} package.
+- name: install {{ item }} package
   package:
     name: '{{ item }}'
     state: present

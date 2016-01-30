@@ -1,11 +1,11 @@
 ---
 
-- name: Add steamcmd group.
+- name: add steamcmd group
   group:
     name: '{{ steamcmd_user }}'
     state: present
 
-- name: Add steamcmd user.
+- name: add steamcmd user
   user:
     name: '{{ steamcmd_user }}'
     comment: "Steam CMD user"
