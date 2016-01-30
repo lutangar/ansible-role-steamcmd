@@ -14,14 +14,3 @@
     createhome: yes
     shell: /bin/bash
     home: '{{ steamcmd_user_home }}'
-
-- name: Check for ssh daemon.
-  command: which sshd
-  register: sshd_path
-  ignore_errors: true
-
-- name: Add authorized key.
-  authorized_key:
-    user: '{{ steamcmd_user }}'
-    key: '{{key}}'
-  when: sshd_path|success and key is defined
