@@ -1,25 +1,37 @@
-# Ansible role steamcmd
+Ansible role steamcmd
+=====================
+
 Setup and install the Steam command-line client.
 This client is used to manage your Steam dedicated servers.
 
-## Usage
+Role Variables
+--------------
+
 ```
-- hosts: myhostname
+steamcmd_create_user: true # create a dedicated user for the steam cmd
+steamcmd_user: steam # owner of the steam cmd
+steamcmd_user_home: /home/{{ steamcmd_user }}/ # home directory of the owner
+steamcmd_directory: /home/{{ steamcmd_user }}/cmd/ # install directory of the cmd
+steamcmd_steam:
+  username: anonymous # steam username
+  password: ~ # steam password
+```
+
+Example Playbook
+----------------
+
+```
+- hosts: servers
   roles:
     - steamcmd
 ```
 
-## Defaults variables
-```
-steamcmd_create_user: true
-steamcmd_user: steam
-steamcmd_user_home: /home/{{ steamcmd_user }}/
-steamcmd_directory: /home/{{ steamcmd_user }}/cmd/
-steamcmd_steam:
-  username: anonymous
-  password: ~
-```
+License
+-------
 
-## Links
+MIT
+
+Links
+-----
+
 <https://developer.valvesoftware.com/wiki/SteamCMD>
-
