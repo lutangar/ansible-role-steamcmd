@@ -83,3 +83,5 @@ galaxy_info:
     - steam
     - steamcmd
     - game
+
+dependencies: []
