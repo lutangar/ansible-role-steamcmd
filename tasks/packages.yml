@@ -1,9 +1,5 @@
 ---
 
-- name: add i386 architecture onto Debian 7
-  command: dpkg --add-architecture i386
-  when: ansible_os_family == 'Debian' and ansible_distribution_version|int == 7
-
 - name: update the apt package index
   apt:
     update_cache: yes
