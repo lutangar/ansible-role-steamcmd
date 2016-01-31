@@ -31,8 +31,7 @@ galaxy_info:
     - steam
     - steamcmd
     - game
-    - ubuntu
-    - centos
-    - debian
+    - gaming
+    - dedicatedserver
 
 dependencies: []
