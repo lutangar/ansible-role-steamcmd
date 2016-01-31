@@ -28,7 +28,7 @@
 
 - name: attempt to log into steam
   command: '{{ steamcmd_directory }}steamcmd.sh +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit'
-  async: 60
+  async: '{{ steamcmd_login_timeout}}'
   poll: 5
   register: steam_login
 

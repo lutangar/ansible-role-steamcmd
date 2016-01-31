@@ -4,6 +4,7 @@ steamcmd_create_user: true
 steamcmd_user: steam
 steamcmd_user_home: /home/{{ steamcmd_user }}/
 steamcmd_directory: /home/{{ steamcmd_user }}/cmd/
+steamcmd_login_timeout: 120
 steamcmd_steam:
   username: anonymous
   password: ~
