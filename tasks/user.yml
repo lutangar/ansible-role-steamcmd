@@ -8,7 +8,7 @@
 - name: add steamcmd user
   user:
     name: '{{ steamcmd_user }}'
-    comment: "Steam CMD user"
+    comment: 'Steam CMD user'
     group: '{{ steamcmd_user }}'
     append: yes
     createhome: yes
