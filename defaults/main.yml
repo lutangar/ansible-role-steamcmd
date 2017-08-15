@@ -8,3 +8,4 @@ steamcmd_login_timeout: 120
 steamcmd_steam:
   username: anonymous
   password: ~
+  guard: unset
