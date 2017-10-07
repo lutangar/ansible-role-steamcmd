@@ -4,7 +4,7 @@ Ansible role steamcmd
 Setup and install the Steam command-line client.
 This client is used to manage your Steam dedicated servers.
 
-Note that for Steam Guard, you should probably login once "by hand" first to generate a code.
+> Note that for Steam Guard, you should probably login once "by hand" first to generate a code.
 
 Role Variables
 --------------
