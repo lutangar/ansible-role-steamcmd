@@ -21,4 +21,4 @@
   package:
     name: '{{ item }}'
     state: present
-  with_items: steamcmd_packages
+  with_items: "{{steamcmd_packages}}"
