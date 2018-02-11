@@ -3,22 +3,22 @@
 - name: update the apt package index
   apt:
     update_cache: yes
-  when: ansible_pkg_mgr == 'apt'
+  when: ansible_pkg_mgr == "apt"
 
 - name: update the yum package index
   yum:
-    name: '*'
+    name: "*"
     state: latest
-  when: ansible_pkg_mgr == 'yum'
+  when: ansible_pkg_mgr == "yum"
 
-- include_vars: '{{ item }}'
+- include_vars: "{{ item }}"
   with_first_found:
-    - '../vars/{{ ansible_os_family }}-{{ ansible_userspace_bits }}.yml'
-    - '../vars/{{ ansible_os_family }}.yml'
-    - '../vars/Debian.yml'
+    - "../vars/{{ ansible_os_family }}-{{ ansible_userspace_bits }}.yml"
+    - "../vars/{{ ansible_os_family }}.yml"
+    - "../vars/Debian.yml"
 
 - name: install packages
   package:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: present
   with_items: "{{steamcmd_packages}}"
