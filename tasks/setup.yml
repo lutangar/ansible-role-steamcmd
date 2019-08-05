@@ -30,27 +30,42 @@
   command: "{{ steamcmd_directory }}steamcmd.sh +quit"
   async: "{{ steamcmd_login_timeout}}"
   poll: 5
-  register: steam_login
+  register: output
   no_log: yes
   when: steamcmd_steam.username == "anonymous"
+
+- name: save output
+  set_fact:
+    steam_stdout: "{{ output.stdout }}"
+  when: output is not skipped
 
 - name: attempt to log into steam
   command: "{{ steamcmd_directory }}steamcmd.sh +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit"
   async: "{{ steamcmd_login_timeout}}"
   poll: 5
-  register: steam_login
+  register: output
   no_log: yes
   when: steamcmd_steam.guard == "~" and 
         steamcmd_steam.username != "anonymous"
+
+- name: save output
+  set_fact:
+    steam_stdout: "{{ output.stdout }}"
+  when: output is not skipped
 
 - name: attempt to log into steam w/guard code
   command: "{{ steamcmd_directory }}steamcmd.sh +set_steam_guard_code {{steamcmd_steam.guard}} +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit"
   async: "{{ steamcmd_login_timeout}}"
   poll: 5
-  register: steam_login
+  register: output
   no_log: yes
   when: steamcmd_steam.guard and
         steamcmd_steam.username != "anonymous"
+
+- name: save output
+  set_fact:
+    steam_stdout: "{{ output.stdout }}"
+  when: output is not skipped
 
 - name: linking steamclient.so to the ~/.steam/sdk32/steamclient.so directory
   file:
@@ -58,4 +73,4 @@
     dest: "{{ steamcmd_user_home }}.steam/sdk32/steamclient.so"
     state: link
     creates: yes
-  when: steam_login.stdout.find('unable to locate a running instance of Steam, or a local steamclient.dll') != -1
+  when: steam_stdout.find('unable to locate a running instance of Steam, or a local steamclient.dll') != -1
