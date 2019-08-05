@@ -45,7 +45,7 @@
   poll: 5
   register: output
   no_log: yes
-  when: steamcmd_steam.guard == "~" and 
+  when: steamcmd_steam.guard is not defined and 
         steamcmd_steam.username != "anonymous"
 
 - name: save output
@@ -53,13 +53,17 @@
     steam_stdout: "{{ output.stdout }}"
   when: output is not skipped
 
+- debug:
+    var: steamcmd_steam.guard
+    verbosity: 2
+
 - name: attempt to log into steam w/guard code
   command: "{{ steamcmd_directory }}steamcmd.sh +set_steam_guard_code {{steamcmd_steam.guard}} +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit"
   async: "{{ steamcmd_login_timeout}}"
   poll: 5
   register: output
   no_log: yes
-  when: steamcmd_steam.guard and
+  when: steamcmd_steam.guard is defined and
         steamcmd_steam.username != "anonymous"
 
 - name: save output
