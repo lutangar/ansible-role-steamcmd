@@ -12,16 +12,23 @@
     state: directory
     recurse: yes
 
+- name: Check steam is already where it should be
+  stat:
+    path: "{{ steamcmd_directory }}/steamcmd.sh"
+  register: stat_steamcmd_result
+
 - name: download SteamCMD for Linux
   get_url:
     url: https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
     dest: "{{ steamcmd_directory }}steamcmd_linux.tar.gz"
+  when: stat_steamcmd_result.stat.exists == False
 
 - name: extract the contents to cmd directory
   unarchive:
     src: "{{ steamcmd_directory }}steamcmd_linux.tar.gz"
     dest: "{{ steamcmd_directory }}"
     copy: no
+  when: stat_steamcmd_result.stat.exists == False
 
 - name: attempt to log into steam anonymously
   command: "{{ steamcmd_directory }}steamcmd.sh +quit"
