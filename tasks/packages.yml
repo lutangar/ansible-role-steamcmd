@@ -1,18 +1,21 @@
 ---
 
-- name: update the apt package index
-  apt:
-    update_cache: yes
-  when: ansible_pkg_mgr == "apt"
-
 - include_vars: "{{ item }}"
   with_first_found:
     - "../vars/{{ ansible_os_family }}-{{ ansible_userspace_bits }}.yml"
     - "../vars/{{ ansible_os_family }}.yml"
     - "../vars/Debian.yml"
 
-- name: install packages
-  package:
-    name: "{{ item }}"
+- name: install packages if apt
+  apt:
+    name: "{{ steamcmd_packages }}"
     state: present
-  with_items: "{{steamcmd_packages}}"
+    update_cache: yes
+  when: ansible_pkg_mgr == "apt"
+  
+- name: install packages if yum
+  yum:
+    name: "{{ steamcmd_packages }}"
+    state: present
+    update_cache: yes
+  when: ansible_pkg_mgr == "yum"
