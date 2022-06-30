@@ -21,7 +21,7 @@
   when: ansible_pkg_mgr == "yum"
 
 - name: install packages if zypper
-  yum:
+  zypper:
     name: "{{ steamcmd_packages }}"
     state: present
     update_cache: yes
